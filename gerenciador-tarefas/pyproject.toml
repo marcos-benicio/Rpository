@@ -1,0 +1,45 @@
+[project]
+name = "gerenciador-tarefas"
+version = "0.1.0"
+description = "Sistema de gerenciamento de tarefas"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[standard]"
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "typos",
+    "poethepoet"
+]
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.lint]
+select = ["I", "F", "E", "W", "PL", "PT"]
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["teste"]
+addopts = ["-p", "no:warnings", "--cov=app"]
+
+[tool.poe.tasks]
+lint = "ruff check"
+format = [
+    { cmd = "ruff check --fix" },
+    { cmd = "ruff format" }
+]
+serve = "fastapi dev app.py"
+test = "pytest -s -x -vv"
+
+[build-system]
+requires = ["poetry-core>=2.0.0"]
+build-backend = "poetry.core.masonry.api"
